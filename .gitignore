@@ -1,0 +1,16 @@
+#/.gitignore
+#.project
+#.classpath
+
+*.apk
+*.ap_
+*.dex
+*.class
+.settings/
+bin/
+gen/
+build.properties
+build.xml
+default.properties
+local.properties
+proguard.cfg
