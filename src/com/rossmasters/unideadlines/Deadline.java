@@ -1,28 +1,82 @@
 package com.rossmasters.unideadlines;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.util.Log;
+
 public class Deadline {
+	private long id;
 	private String label;
 	private Date deadline;
 	private boolean pinned;
 	
-	public Deadline(String label, Date date) {
-		this(label, date, false);
-	}
+	private final static String TAG = "DeadlineModel";
 	
-	public Deadline(String label, Date date, boolean pinned) {
+	public Deadline(long id, String label, Date date, boolean pinned) {
+		this.id = id;
 		this.label = label;
 		this.deadline = date;
 		this.pinned = pinned;
+	}
+	
+	public Deadline(String label, Date date, boolean pinned) {
+		this(0, label, date, pinned);
+	}
+	
+	public Deadline(String label, Date date) {
+		this(0, label, date, false);
+	}
+	
+	public Deadline() {
+		this(0, "", new Date(), false);
+	}
+	
+	public long getId() {
+		return this.id;
+	}
+	
+	public Deadline setId(long id) {
+		this.id = id;
+		return this;
 	}
 	
 	public String getLabel() {
 		return this.label;
 	}
 	
+	public Deadline setLabel(String label) {
+		this.label = label;
+		return this;
+	}
+	
 	public Date getDeadline() {
 		return this.deadline;
+	}
+	
+	public Deadline setDeadline(Date date) {
+		this.deadline = date;
+		return this;
+	}
+	
+	public Deadline setDeadline(String date) {
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			this.deadline = fmt.parse(date);
+		} catch (ParseException e) {
+			Log.w(TAG, "Failed to parse deadline - must match format " + fmt.toPattern());
+		}
+		return this;
+	}
+	
+	public boolean isPinned() {
+		return this.pinned;
+	}
+	
+	public Deadline setPinned(boolean pinned) {
+		this.pinned = pinned;
+		return this;
 	}
 	
 	public boolean deadlinePassed() {
@@ -74,7 +128,8 @@ public class Deadline {
 		}
 	}
 	
-	public boolean isPinned() {
-		return this.pinned;
+	@Override
+	public String toString() {
+		return this.label;
 	}
 }
